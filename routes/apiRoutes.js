@@ -23,8 +23,8 @@ router.get("/scrape",function(req,res){
         var result={}
     
     //adding to the object the specific things to scrape from those cards
+    result.title
 
-    
     
     })
     })
