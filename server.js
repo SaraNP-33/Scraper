@@ -16,6 +16,10 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true });
 
+//import routes and give the server access to them.
+
+var router=require("./routes/apiRoutes.js");
+app.use(router);
 
 // Start the server
 app.listen(PORT, function() {
