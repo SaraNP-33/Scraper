@@ -2,7 +2,7 @@ var mongoose=require("mongoose");
 
 var Schema=mongoose.Schema;
 
-//usin Schema constructor to create a new UserSchema object
+//using Schema constructor to create a new UserSchema object
 
 var RecipeSchema =new Schema({
     title:{
@@ -12,7 +12,8 @@ var RecipeSchema =new Schema({
 
     link:{
         type: String,
-        require: true
+        require: true,
+        unique: true
     },
     image:{
         type: String,
@@ -23,10 +24,10 @@ var RecipeSchema =new Schema({
         require: true
 
     },
-    note:{
+    note:[{
         type: Schema.Types.ObjectId,
         ref: "Note"
-    }
+    }]
 });
 
 var Recipe = mongoose.model("Recipe", RecipeSchema);
