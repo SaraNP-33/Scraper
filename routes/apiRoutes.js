@@ -71,7 +71,7 @@ router.get("/scrape",function(req,res){
         db.Recipe.find({ saved:false}).then(function(recipedb){
             console.log("from the find")
             console.log(recipedb)
-            res.send(recipedb);
+            res.json(recipedb);
         })
         .catch(function(err){
             res.json(err);

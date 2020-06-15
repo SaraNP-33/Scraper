@@ -21,7 +21,7 @@ $.get("/allrecipes",function(response){
         </div>
         `)
     } 
-    location.href="/"
+    //location.href="/"
 });
 
 
