@@ -21,8 +21,12 @@ var RecipeSchema =new Schema({
     },
     description:{
         type: String,
-        require: true
-
+        require: true,
+       
+    },
+    saved:{
+        type:Boolean,
+        default: false
     },
     note:[{
         type: Schema.Types.ObjectId,

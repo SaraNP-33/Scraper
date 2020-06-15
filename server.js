@@ -21,15 +21,19 @@ app.set("view engine", "handlebars");
 
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/recipeBookdb", { useNewUrlParser: true });
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/recipeBookdb";
+
+mongoose.connect(MONGODB_URI);
 
 //import routes and give the server access to them.
+var routes=require("./routes/htmlRoutes.js");
+app.use(routes);
 
 var router=require("./routes/apiRoutes.js");
 app.use(router);
 
 // Start the server
 app.listen(PORT, function() {
-    console.log("App running on port " + PORT + "!");
+    console.log("App running on port " + PORT + "!"+ " ...Click on the link: " +"http://localhost:3000/");
   });
   
