@@ -16,7 +16,7 @@ $.get("/allrecipes",function(response){
         <div class="card-body>
         <h5 class="card-title">${response[i].title}</h5>
         <p class="card-text">${response[i].description}</p>
-        <a href="${response[i].link} target="_blank" class="btn btn-primary">Go to Recipe</a>
+        <a href="${response[i].link}" target="_blank" class="btn btn-primary">Go to Recipe</a>
         </div>
         </div>
         `)
