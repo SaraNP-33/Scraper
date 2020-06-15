@@ -9,5 +9,11 @@ routes.get("/", function(req,res){
 
 });
 
+routes.get("/saved", function(req,res){
+     
+    res.render("saved")      
+
+});
+
 
 module.exports=routes;

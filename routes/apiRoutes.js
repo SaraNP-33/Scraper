@@ -78,6 +78,26 @@ router.get("/scrape",function(req,res){
         });
     });
 
+    //route to save recipes it will a put because we are updating the bolean value on the save
+    router.put("/saveRecipes/:id", function(req,res){
+        db.Recipe.updateOne({_id:req.params.id}, {saved: true})
+        .then(function(result){
+            console.log(" it was saved")
+            console.log(result)
+            res.send("recipe saved")
+        }).catch(function(err){
+            console.log(err)
+        });
+    });
+
+    //route to get user to see all their saved recipes
+    router.get("/allsaved", function(req,res){
+        db.Recipe.find({saved:true}).then(function(saved){
+            console.log("All the saved ones")
+            console.log(saved)
+            res.json(saved)
+        })
+    })
     //route to allow user to create notes
     
     //route to get a specific recipe and it's notes
