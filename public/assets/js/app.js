@@ -91,6 +91,8 @@ $.ajax({
         </div>
    `)
     if(data.note){
+        console.log("this is the note info")
+        console.log(data.note.body)
         $("#noteTitle").val(data.note.title);
         $("#noteBody").val(data.note.body)
     }
@@ -98,7 +100,21 @@ $.ajax({
 
 });
 //add a the note when opne the modal
-
+$(document).on("click",".saveNote", function(){
+    var id=$(this).data("id");
+    $.ajax({
+        url:"/recipe/" +id,
+        method:"Post",
+        data:{
+            title: $("#noteTitle").val(),
+            body:$("#noteBody").val()
+        }
+    }).then(function(data){
+        console.log(data)
+    })
+    $("#note.Title").val(),
+    $("#noteBody").val()
+})
 // button that allows user to delete all scrape items so they can scrape again if they so choose. 
 
 

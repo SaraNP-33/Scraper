@@ -117,10 +117,12 @@ router.get("/scrape",function(req,res){
     router.post("/recipe/:id", function(req,res){
         db.Note.create(req.body)
         .then(function(Notedb){
-            return db.Recipe.findOneAndUpdate({_id:req.params.id},{note:dbNote._id},{new: true});
+            console.log(Notedb)
+            return db.Recipe.findOneAndUpdate({_id:req.params.id},{$push:{note:Notedb._id}},{new: true});
         })
         .then(function(recipedb){
-            res.json(dbArticle)
+            console.log(recipedb)
+            res.json(recipedb)
         })
         .catch(function(err){
             res.json(err)
