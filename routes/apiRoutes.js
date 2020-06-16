@@ -98,10 +98,9 @@ router.get("/scrape",function(req,res){
             res.json(saved)
         })
     })
-    //route to allow user to create notes
-    
-    //route to get a specific recipe and it's notes
-    router.get("/recipe/:id",function(req,res){
+
+     //route to get a specific recipe and it's notes
+     router.get("/recipe/:id",function(req,res){
         db.Recipe.findOne({_id: req.params.id})
         //have all the associate notes be there too
         .populate("note")
@@ -113,6 +112,22 @@ router.get("/scrape",function(req,res){
             console.log(err)
         })
     })
+
+    //route to allow user to create notes and be saved on the database as well as update it on the recipe collection
+    router.post("/recipe/:id", function(req,res){
+        db.Note.create(req.body)
+        .then(function(Notedb){
+            return db.Recipe.findOneAndUpdate({_id:req.params.id},{note:dbNote._id},{new: true});
+        })
+        .then(function(recipedb){
+            res.json(dbArticle)
+        })
+        .catch(function(err){
+            res.json(err)
+        })
+    })
+    
+   
     
    
 

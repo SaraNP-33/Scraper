@@ -23,6 +23,7 @@ $.get("/allrecipes",function(response){
     } 
   
 });
+
 // when click on the button to save this will update the database 
 $(document).on("click","#saveBtn", function(){
     var id= $(this).data("id")
@@ -31,12 +32,11 @@ $(document).on("click","#saveBtn", function(){
         url:"/saveRecipes/" + id,
         method:"PUT"
     }).then(function(result){
-        $("#recipeId").find(`[data-id=${id}]`).hide();
         alert("Recipe saved! Go to Saved Recipes to add your notes")
     });
 });
 
-//this event will allow the user to go see all their saved recipes
+//this get will allow the user to go see all their saved recipes
 
 $.get("/allsaved", function(response){
     for(var i=0; i<response.length;i++){
@@ -49,15 +49,55 @@ $.get("/allsaved", function(response){
         <p class="card-text">${response[i].description}</p>
         <div class="row button d-flex justify-content-center">
         <a href="${response[i].link}" target="_blank" class="btn btn-primary">Go to Recipe</a>
-        <button type="button" id="saveBtn" class="btn btn-success ml-2"> Add Note</button>
+        <button type="button" id="addNote" class="btn btn-success ml-2" data-toggle="modal" data-target="#result-modal"  data-id=${response[i]._id}>Notes</button>
         </div>
         </div>
         </div>
         `)
     } 
 
+});
+//event to allow user to see the notes if there are any
+$(document).on("click", "#addNote", function(){
+    console.log("click")
+var id=$(this).data("id")
+// $("#result-modal").modal("toggle");
+$.ajax({
+    url:"/recipe/" + id,
+    method:"GET"
+}).then(function(data){
+    console.log(data)
+   $(".notes").append(`
+        <div class=modal-header">
+        <h5 class="modal-title">${data.title}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-lable="Close">
+        <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <div class="modal-body">
+        <form>
+        <div class="form-group">
+        <label for="name" class="col-form-label">Note Title:</label>
+        <input type="text" class="form-control" id="noteTitle">
+        </div>
+        <div class="form-group">
+        <label for="text" class="col-form-label">Note:</label>
+        <textarea class="form-control" id="noteBody"></textarea>
+        </div>
+        </form>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-id=${data._id} data-dismissal="modal">Close</button>
+        <button type="button" class="btn btn-success saveNote" data-id=${data._id}>Save Note</button>
+        </div>
+        </div>
+   `)
+    
+
+
 })
 
+})
+
+// button that allows user to delete all scrape items so they can scrape again if they so choose. 
 
 
 });
