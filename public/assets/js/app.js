@@ -61,7 +61,7 @@ $.get("/allsaved", function(response){
 $(document).on("click", "#addNote", function(){
     console.log("click")
 var id=$(this).data("id")
-// $("#result-modal").modal("toggle");
+$(".notes").empty();
 $.ajax({
     url:"/recipe/" + id,
     method:"GET"
@@ -85,17 +85,19 @@ $.ajax({
         </div>
         </form>
         <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-id=${data._id} data-dismissal="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-id=${data._id} data-dismissal="modal">Delete Note</button>
         <button type="button" class="btn btn-success saveNote" data-id=${data._id}>Save Note</button>
         </div>
         </div>
    `)
-    
+    if(data.note){
+        $("#noteTitle").val(data.note.title);
+        $("#noteBody").val(data.note.body)
+    }
+});
 
-
-})
-
-})
+});
+//add a the note when opne the modal
 
 // button that allows user to delete all scrape items so they can scrape again if they so choose. 
 
