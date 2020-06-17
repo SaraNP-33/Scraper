@@ -8,7 +8,7 @@ $.get("/allrecipes",function(response){
     for(var i=0; i<response.length;i++){
         $(".recipes").append(`
         <div class = "col-md-4 " data-id=${response[i]._id}">
-        <div class= "card recipeCard style= "width: 18rem;>
+        <div class= "card shadow p-3 mb-5 bg-white rounded recipeCard">
         <img src="${response[i].image}" class="recipeImage alt="Recipe Image">
         <div class="card-body">
         <h4 class="card-title"><strong>${response[i].title}</strong></h4>
@@ -42,15 +42,15 @@ $.get("/allsaved", function(response){
     console.log(response)
     for(var i=0; i<response.length;i++){
         $(".savedRecipes").append(`
-        <div class = "col-md-4 recipeId d-flex flex-column" data-id=${response[i]._id}">
-        <div class= "card recipeCard mb-3" style="width:20vw; height:70vh">
+        <div class = "col-md-4 recipeId " data-id=${response[i]._id}">
+        <div class= "card shadow p-3 mb-5 bg-white rounded recipeCard">
         <img src="${response[i].image}" class="recipeImage alt="Recipe Image">
         <div class="card-body">
         <a href ="${response[i].link}" target="_blank">
         <h5 class="card-title"><strong>${response[i].title}</strong></h5>
         </a>
         <p class="card-text">${response[i].description}</p>
-        <div class="button align-items-end mb-0">
+        <div class="row d-flex justify-content-center">
         <button type="button" class="btn btn-primary ml-2 delSaved" data-id=${response[i]._id}>Delete</button>
         <button type="button" class="btn btn-success ml-2 addNote" data-toggle="modal" data-target="#result-modal"  data-id=${response[i]._id}>Notes</button>
         </div>
