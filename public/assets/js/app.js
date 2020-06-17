@@ -39,17 +39,19 @@ $(document).on("click","#saveBtn", function(){
 //this get will allow the user to go see all their saved recipes
 
 $.get("/allsaved", function(response){
+    console.log(response)
     for(var i=0; i<response.length;i++){
         $(".savedRecipes").append(`
-        <div class = "col-md-4 recipeId" data-id=${response[i]._id}">
-        <div class= "card recipeCard style= "width: 18rem;>
+        <div class = "col-md-4 recipeId d-flex flex-column" data-id=${response[i]._id}">
+        <div class= "card recipeCard mb-3" style="width:20vw; height:70vh">
         <img src="${response[i].image}" class="recipeImage alt="Recipe Image">
         <div class="card-body">
-        <h4 class="card-title"><strong>${response[i].title}</strong></h4>
+        <h5 class="card-title"><strong>${response[i].title}</strong></h5>
         <p class="card-text">${response[i].description}</p>
-        <div class="row button d-flex justify-content-center">
+        <div class="button align-items-end mb-0">
         <a href="${response[i].link}" target="_blank" class="btn btn-primary">Go to Recipe</a>
-        <button type="button" id="addNote" class="btn btn-success ml-2" data-toggle="modal" data-target="#result-modal"  data-id=${response[i]._id}>Notes</button>
+        <button type="button" class="btn btn-success ml-2 addNote" data-toggle="modal" data-target="#result-modal"  data-id=${response[i]._id}>Notes</button>
+        </div>
         </div>
         </div>
         </div>
@@ -58,10 +60,14 @@ $.get("/allsaved", function(response){
 
 });
 //event to allow user to see the notes if there are any
-$(document).on("click", "#addNote", function(){
+$(document).on("click", ".addNote", function(){
     console.log("click")
+
 var id=$(this).data("id")
+console.log("this is the article id:"+id)
+
 $(".notes").empty();
+
 $.ajax({
     url:"/recipe/" + id,
     method:"GET"
@@ -85,12 +91,15 @@ $.ajax({
         </div>
         </form>
         <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-id=${data._id} data-dismissal="modal">Delete Note</button>
+        
         <button type="button" class="btn btn-success saveNote" data-id=${data._id}>Save Note</button>
         </div>
         </div>
    `)
     if(data.note){
+        $(".modal-footer").append(`
+        <button type="button" class="btn btn-secondary deleteNote" data-id=${data.note._id} data-dismissal="modal">Delete Note</button>
+        `)
         console.log("this is the note info")
         console.log(data.note.body)
         $("#noteTitle").val(data.note.title);
@@ -99,7 +108,7 @@ $.ajax({
 });
 
 });
-//add a the note when opne the modal
+//add a note and save it 
 $(document).on("click",".saveNote", function(){
     var id=$(this).data("id");
     $.ajax({
@@ -110,12 +119,35 @@ $(document).on("click",".saveNote", function(){
             body:$("#noteBody").val()
         }
     }).then(function(data){
-        console.log(data)
+        console.log("saved the note")
+       console.log(data)
     })
-    $("#note.Title").val(),
-    $("#noteBody").val()
+    $("#noteTitle").val("")
+    $("#noteBody").val("")
 })
-// button that allows user to delete all scrape items so they can scrape again if they so choose. 
+
+//delete a note
+
+$(document).on("click",".deleteNote", function(){
+ 
+       var id=$(this).data("id");
+    
+     
+    console.log("the info from the button")
+    console.log(id)
+    $.ajax({
+        url:"/deleteNote/" +id,
+        method: "DELETE"
+       
+    }).then(function(){
+        console.log("it's running")
+        $("#noteTitle").val(" ")
+        $("#noteBody").val(" ")
+
+    }).fail(function(err){
+        console.log(err)
+    })
+})
 
 
 });

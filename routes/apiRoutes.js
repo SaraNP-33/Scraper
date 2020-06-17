@@ -16,7 +16,7 @@ router.get("/scrape",function(req,res){
         //loading body of html onto cherio after requesting it with axios
         var $=cheerio.load(response.data);
             // console.log(response.data)
-            console.log("dragon")
+            // console.log("dragon")
     var array=[];
     //grabbing the individual recipe cards
     $("article.fixed-recipe-card").each(function(i,element){
@@ -69,8 +69,8 @@ router.get("/scrape",function(req,res){
 
     router.get("/allrecipes", function(req,res){
         db.Recipe.find({ saved:false}).then(function(recipedb){
-            console.log("from the find")
-            console.log(recipedb)
+            // console.log("from the find")
+            // console.log(recipedb)
             res.json(recipedb);
         })
         .catch(function(err){
@@ -82,8 +82,8 @@ router.get("/scrape",function(req,res){
     router.put("/saveRecipes/:id", function(req,res){
         db.Recipe.updateOne({_id:req.params.id}, {saved: true})
         .then(function(result){
-            console.log(" it was saved")
-            console.log(result)
+            // console.log(" it was saved")
+            // console.log(result)
             res.send("recipe saved")
         }).catch(function(err){
             console.log(err)
@@ -93,8 +93,8 @@ router.get("/scrape",function(req,res){
     //route to get user to see all their saved recipes
     router.get("/allsaved", function(req,res){
         db.Recipe.find({saved:true}).then(function(saved){
-            console.log("All the saved ones")
-            console.log(saved)
+            // console.log("All the saved ones")
+            // console.log(saved)
             res.json(saved)
         })
     })
@@ -118,7 +118,7 @@ router.get("/scrape",function(req,res){
         db.Note.create(req.body)
         .then(function(Notedb){
             console.log(Notedb)
-            return db.Recipe.findOneAndUpdate({_id:req.params.id},{$push:{note:Notedb._id}},{new: true});
+            return db.Recipe.findOneAndUpdate({_id:req.params.id},{$set:{note:Notedb._id}},{new: true});
         })
         .then(function(recipedb){
             console.log(recipedb)
@@ -133,7 +133,7 @@ router.get("/scrape",function(req,res){
 
    //route that allows to delete all the scrape recipes saved in database that are not saved
 
-   router.get("/deleteall", function(req,res){
+   router.get("/deleteAll", function(req,res){
        db.Recipe.deleteMany({saved:false})
        .then(function(){
            res.render("index")
@@ -141,12 +141,30 @@ router.get("/scrape",function(req,res){
    });
 
 //route to delete one article in the saved true category
-router.get("deleteone/:id", function(req,res){
+router.delete("/deleteOne/:id", function(req,res){
     db.Recipe.deleteOne({_id:req.params.id}, {saved:true})
     .then(function(){
         res.render("saved")
+    });
+});
+
+//route to delete a note
+router.delete("/deleteNote/:id", function(req,res){
+    console.log("unicorn")
+    db.Note.deleteOne({_id:req.params.id})
+    .then(Notedb=>{
+        console.log("was note deleted?")
+        console.log(Notedb)
+        return db.Recipe.updateOne({_id:req.params.id},{$pullAll:{notes:Notedb._id}})
+    }).then(recipeDb=>{
+        console.log("it was deleted")
+        console.log(recipeDb)
+        res.send(true)
     })
-})
+    .catch(err=>{
+        console.log(err)
+    });
+});
    
 
 
