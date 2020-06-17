@@ -2,10 +2,9 @@ body{
     background-color: whitesmoke;
 }
 
-.jumboTitle
+.jumboTitle,
 .jumboTitle1
 {
-
     color:#ff6600;
     font-family:"Poppins", "cursive"
 }
@@ -18,3 +17,4 @@ body{
 .jumbotron{
     background-color:whitesmoke;
 }
+
