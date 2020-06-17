@@ -46,10 +46,12 @@ $.get("/allsaved", function(response){
         <div class= "card recipeCard mb-3" style="width:20vw; height:70vh">
         <img src="${response[i].image}" class="recipeImage alt="Recipe Image">
         <div class="card-body">
+        <a href ="${response[i].link}" target="_blank">
         <h5 class="card-title"><strong>${response[i].title}</strong></h5>
+        </a>
         <p class="card-text">${response[i].description}</p>
         <div class="button align-items-end mb-0">
-        <a href="${response[i].link}" target="_blank" class="btn btn-primary">Go to Recipe</a>
+        <button type="button" class="btn btn-primary ml-2 delSaved" data-id=${response[i]._id}>Delete</button>
         <button type="button" class="btn btn-success ml-2 addNote" data-toggle="modal" data-target="#result-modal"  data-id=${response[i]._id}>Notes</button>
         </div>
         </div>
@@ -146,6 +148,18 @@ $(document).on("click",".deleteNote", function(){
 
     }).fail(function(err){
         console.log(err)
+    })
+})
+
+//delete a saved recipe
+$(document).on("click", ".delSaved", function(){
+    var id=$(this).data("id")
+    $.ajax({
+        url:"/deleteOne/"+id,
+        method:"DELETE"
+    }).then(function(){
+        console.log("it has been deleted")
+        location.reload();
     })
 })
 

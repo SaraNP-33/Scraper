@@ -132,6 +132,7 @@ router.get("/scrape",function(req,res){
    //*****************DELETE ROUTES****************************** */
 
    //route that allows to delete all the scrape recipes saved in database that are not saved
+   //this is a get because I am using the route directly on a button as a link
 
    router.get("/deleteAll", function(req,res){
        db.Recipe.deleteMany({saved:false})
@@ -143,7 +144,8 @@ router.get("/scrape",function(req,res){
 //route to delete one article in the saved true category
 router.delete("/deleteOne/:id", function(req,res){
     db.Recipe.deleteOne({_id:req.params.id}, {saved:true})
-    .then(function(){
+    .then(function(recipedb){
+        console.log(recipedb)
         res.render("saved")
     });
 });
