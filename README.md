@@ -104,9 +104,8 @@ npm install cheerio
 * [See Live Site](https://dashboard.heroku.com/apps/damp-eyrie-19615)
 
 ## Author
-* *Sara Neves Pereira*
 
-- [Link to Github](https://github.com/SaraNP-33)
+- [Sara Neves Pereira](https://github.com/SaraNP-33)
 
 ## License
 This project is licensed under the MIT License
