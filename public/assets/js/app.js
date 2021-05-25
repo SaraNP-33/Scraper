@@ -1,12 +1,12 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
     //get the route with all recipes to show up in the index by dynamically creating
     //their place in the index.handlebars
 
-$.get("/allrecipes",function(response){
-    console.log(response.length)
-    for(var i=0; i<response.length;i++){
-        $(".recipes").append(`
+    $.get("/allrecipes", function (response) {
+        console.log(response.length)
+        for (var i = 0; i < response.length; i++) {
+            $(".recipes").append(`
         <div class = "col-md-4 " data-id=${response[i]._id}">
         <div class= "card shadow p-3 mb-5 bg-white rounded recipeCard">
         <img src="${response[i].image}" class="recipeImage alt="Recipe Image">
@@ -20,28 +20,28 @@ $.get("/allrecipes",function(response){
         </div>
         </div>
         `)
-    } 
-  
-});
+        }
 
-// when click on the button to save this will update the database 
-$(document).on("click","#saveBtn", function(){
-    var id= $(this).data("id")
-    console.log(id)
-    $.ajax({
-        url:"/saveRecipes/" + id,
-        method:"PUT"
-    }).then(function(result){
-        alert("Recipe saved! Go to Saved Recipes to add your notes")
     });
-});
 
-//this get will allow the user to go see all their saved recipes
+    // when click on the button to save this will update the database 
+    $(document).on("click", "#saveBtn", function () {
+        var id = $(this).data("id")
+        console.log(id)
+        $.ajax({
+            url: "/saveRecipes/" + id,
+            method: "PUT"
+        }).then(function (result) {
+            alert("Recipe saved! Go to Saved Recipes to add your notes")
+        });
+    });
 
-$.get("/allsaved", function(response){
-    console.log(response)
-    for(var i=0; i<response.length;i++){
-        $(".savedRecipes").append(`
+    //this get will allow the user to go see all their saved recipes
+
+    $.get("/allsaved", function (response) {
+        console.log(response)
+        for (var i = 0; i < response.length; i++) {
+            $(".savedRecipes").append(`
         <div class = "col-md-4 recipeId " data-id=${response[i]._id}">
         <div class= "card shadow p-3 mb-5 bg-white rounded recipeCard">
         <img src="${response[i].image}" class="recipeImage alt="Recipe Image">
@@ -52,30 +52,30 @@ $.get("/allsaved", function(response){
         <p class="card-text">${response[i].description}</p>
         <div class="row d-flex justify-content-center">
         <button type="button" class="btn btn-primary ml-2 delSaved" data-id=${response[i]._id}>Delete</button>
-        <button type="button" class="btn btn-success ml-2 addNote" data-toggle="modal" data-target="#result-modal"  data-id=${response[i]._id}>Notes</button>
+        <button type="button" class="btn btn-success ml-2 " id="addNote" data-toggle="modal" data-target="#result-modal"  data-id=${response[i]._id}>Notes</button>
         </div>
         </div>
         </div>
         </div>
         `)
-    } 
+        }
 
-});
-//event to allow user to see the notes if there are any
-$(document).on("click", ".addNote", function(){
-    console.log("click")
+    });
+    //event to allow user to see the notes if there are any
+    $(document).on("click", "#addNote", function () {
+        console.log("click")
 
-var id=$(this).data("id")
-console.log("this is the article id:"+id)
+        var id = $(this).data("id")
+        console.log("this is the article id:" + id)
 
-$(".notes").empty();
+        $(".notes").empty();
 
-$.ajax({
-    url:"/recipe/" + id,
-    method:"GET"
-}).then(function(data){
-    console.log(data)
-   $(".notes").append(`
+        $.ajax({
+            url: "/recipe/" + id,
+            method: "GET"
+        }).then(function (data) {
+            console.log(data)
+            $(".notes").append(`
         <div class=modal-header">
         <h5 class="modal-title">${data.title}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-lable="Close">
@@ -98,70 +98,71 @@ $.ajax({
         </div>
         </div>
    `)
-    if(data.note){
-        $(".modal-footer").append(`
+            if (data.note) {
+                $(".modal-footer").append(`
         <button type="button" class="btn btn-secondary deleteNote" data-id=${data.note._id} data-dismissal="modal">Delete Note</button>
         `)
-        console.log("this is the note info")
-        console.log(data.note.body)
-        $("#noteTitle").val(data.note.title);
-        $("#noteBody").val(data.note.body)
-    }
-});
+                console.log("this is the note info")
+                console.log(data.note.body)
+                $("#noteTitle").val(data.note.title);
+                $("#noteBody").val(data.note.body)
+            }
+        });
 
-});
-//add a note and save it 
-$(document).on("click",".saveNote", function(){
-    var id=$(this).data("id");
-    $.ajax({
-        url:"/recipe/" +id,
-        method:"Post",
-        data:{
-            title: $("#noteTitle").val(),
-            body:$("#noteBody").val()
-        }
-    }).then(function(data){
-        console.log("saved the note")
-       console.log(data)
+    });
+    //add a note and save it 
+    $(document).on("click", ".saveNote", function () {
+        console.log("clicked notes")
+        var id = $(this).data("id");
+        $.ajax({
+            url: "/recipe/" + id,
+            method: "Post",
+            data: {
+                title: $("#noteTitle").val(),
+                body: $("#noteBody").val()
+            }
+        }).then(function (data) {
+            console.log("saved the note")
+            console.log(data)
+        })
+        $("#noteTitle").val("")
+        $("#noteBody").val("")
     })
-    $("#noteTitle").val("")
-    $("#noteBody").val("")
-})
 
-//delete a note
+    //delete a note
 
-$(document).on("click",".deleteNote", function(){
- 
-       var id=$(this).data("id");
-    
-     
-    console.log("the info from the button")
-    console.log(id)
-    $.ajax({
-        url:"/deleteNote/" +id,
-        method: "DELETE"
-       
-    }).then(function(){
-        console.log("it's running")
-        $("#noteTitle").val(" ")
-        $("#noteBody").val(" ")
+    $(document).on("click", ".deleteNote", function () {
 
-    }).fail(function(err){
-        console.log(err)
+        var id = $(this).data("id");
+
+
+        console.log("the info from the button")
+        console.log(id)
+        $.ajax({
+            url: "/deleteNote/" + id,
+            method: "DELETE"
+
+        }).then(function () {
+            console.log("it's running")
+            $("#noteTitle").val(" ")
+            $("#noteBody").val(" ")
+
+        }).fail(function (err) {
+            console.log(err)
+        })
     })
-})
 
-//delete a saved recipe
-$(document).on("click", ".delSaved", function(){
-    var id=$(this).data("id")
-    $.ajax({
-        url:"/deleteOne/"+id,
-        method:"DELETE"
-    }).then(function(){
-        console.log("it has been deleted")
-        location.reload();
+    //delete a saved recipe
+    $(document).on("click", ".delSaved", function () {
+        var id = $(this).data("id")
+        $.ajax({
+            url: "/deleteOne/" + id,
+            method: "DELETE"
+        }).then(function () {
+            console.log("it has been deleted")
+            location.reload();
+        })
     })
-})
 
 
 });

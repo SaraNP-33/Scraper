@@ -2,7 +2,7 @@ var express =require("express");
 var mongoose= require("mongoose");
 
 //Port where are server can be hosted
-var PORT=process.env.PORT || 3000;
+var PORT=process.env.PORT || 8080;
 
 //Initialize express
 var app=express();
@@ -34,6 +34,6 @@ app.use(router);
 
 // Start the server
 app.listen(PORT, function() {
-    console.log("App running on port " + PORT + "!"+ " ...Click on the link: " +"http://localhost:3000/");
+    console.log("App running on port " + PORT + "!"+ " ...Click on the link: " +"http://localhost:8080/");
   });
   
