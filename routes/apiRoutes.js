@@ -11,48 +11,49 @@ var db=require("../models");
 
 
 router.get("/scrape",function(req,res){
-    for(let page=0; page<=7;page++){
-    axios.get(`https://www.allrecipes.com/?page=${page}`).then(function(response){
+    // for(let page=0; page<=7;page++){
+    axios.get(`https://www.allrecipes.com/`).then(function(response){
         //loading body of html onto cherio after requesting it with axios
         var $=cheerio.load(response.data);
-            // console.log(response.data)
-            // console.log("dragon")
+            console.log(response.data, "data")
+            //console.log("dragon")
     var array=[];
     //grabbing the individual recipe cards
-    $("article.fixed-recipe-card").each(function(i,element){
+    $("div.component.card.card_category").each(function(i,element){
 
     //empty object to put everything I want from those cards
         var result={}
     
     //adding to the object the specific things to scrape from those cards
-    result.image =$(this)
-    .find("img.fixed-recipe-card__img")
-    .attr("data-original-src")
+    result.image = $(element)
+    .find("img.component.lazy-image")
+    .attr("data-src")
    
     
-    result.title=$(this)
-    .find("span.fixed-recipe-card__title-link")
+    result.title=$(element)
+    .find("h3.card__title")
     .text()
 
-    result.link=$(this)
-    .find("a.fixed-recipe-card__title-link")
+    result.link=$(element)
+    .find("a.card__titleLink")
     .attr("href")
 
-    result.description=$(this)
-    .find("div.fixed-recipe-card__description")
+    result.description=$(element)
+    .find("div.card__summary")
     .text()
 
 
-    // console.log(result)
+    console.log(result, "am I getting it?")
     console.log("******************")
     array.push(result)
 
     });
+    console.log(array)
 
     //insert into the database
     db.Recipe.insertMany(array)
     .then(function(recipedb){
-        
+        console.log(recipedb)
        
     })
     .catch(function(err){
@@ -60,8 +61,10 @@ router.get("/scrape",function(req,res){
         // res.send("oops something went wrong")
     });
    
-    });
-}
+    }).catch((err)=>{
+        console.log(err, "err from scraping")
+    })
+// }
     res.redirect("/");
 });
    
