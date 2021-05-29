@@ -19,14 +19,15 @@ router.get("/scrape",function(req,res){
             //console.log("dragon")
     var array=[];
     //grabbing the individual recipe cards
-    $("div.component.card.card_category").each(function(i,element){
+    $("div.component.card.card__category").each(function(i,element){
 
     //empty object to put everything I want from those cards
         var result={}
     
     //adding to the object the specific things to scrape from those cards
     result.image = $(element)
-    .find("img.component.lazy-image")
+    .find("div.inner-container")
+    .find("img")
     .attr("data-src")
    
     
@@ -48,7 +49,7 @@ router.get("/scrape",function(req,res){
     array.push(result)
 
     });
-    console.log(array)
+    
 
     //insert into the database
     db.Recipe.insertMany(array)

@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     //get the route with all recipes to show up in the index by dynamically creating
     //their place in the index.handlebars
-
+    
     $.get("/allrecipes", function (response) {
         console.log(response.length)
         for (var i = 0; i < response.length; i++) {
