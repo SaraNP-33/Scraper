@@ -11,37 +11,41 @@ var db=require("../models");
 
 
 router.get("/scrape",function(req,res){
-    // for(let page=0; page<=7;page++){
-    axios.get(`https://www.allrecipes.com/`).then(function(response){
+    for(let page=0; page<=7;page++){
+    axios.get(`https://www.realsimple.com/food-recipes/browse-all-recipes`).then(function(response){
         //loading body of html onto cherio after requesting it with axios
         var $=cheerio.load(response.data);
             console.log(response.data, "data")
             //console.log("dragon")
     var array=[];
     //grabbing the individual recipe cards
-    $("div.component.card.card__category").each(function(i,element){
+    $(".category-page-item").each(function(i,element){
 
     //empty object to put everything I want from those cards
         var result={}
     
     //adding to the object the specific things to scrape from those cards
     result.image = $(element)
-    .find("div.inner-container")
-    .find("img")
-    .attr("data-src")
+    .find(".category-page-item-image a")
+    .children(".lazy-image")
+    .attr("data-src");
+   
    
     
     result.title=$(element)
-    .find("h3.card__title")
+    .find(".category-page-item-content a")
+    .children(".category-page-item-title")
     .text()
+    .trim();
 
     result.link=$(element)
-    .find("a.card__titleLink")
-    .attr("href")
+    .find(".category-page-item-content a")
+    .attr("href");
 
     result.description=$(element)
-    .find("div.card__summary")
-    .text()
+    .find(".category-page-item-content")
+    .find(".category-page-item-description")
+    .text().trim()
 
 
     console.log(result, "am I getting it?")
@@ -54,7 +58,7 @@ router.get("/scrape",function(req,res){
     //insert into the database
     db.Recipe.insertMany(array)
     .then(function(recipedb){
-        console.log(recipedb)
+        // console.log(recipedb)
        
     })
     .catch(function(err){
@@ -65,7 +69,7 @@ router.get("/scrape",function(req,res){
     }).catch((err)=>{
         console.log(err, "err from scraping")
     })
-// }
+ }
     res.redirect("/");
 });
    
