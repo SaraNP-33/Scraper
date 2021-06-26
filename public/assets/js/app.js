@@ -105,7 +105,7 @@ $(document).ready(function () {
             url: "/recipe/" + id,
             method: "GET"
         }).then(function (data) {
-            // console.log(data, "from data")
+            console.log(data, "from data")
             $("#notes").append(`
                 <div class="modal-card">
                     <section class="modal-card-body">
@@ -125,6 +125,10 @@ $(document).ready(function () {
                                 <textarea class="form-control mt-3 pt-2" placeholder="ENTER NOTE HERE" id="noteBody"></textarea>
                             </div>
                         </form>
+                        <div class="content-notes">
+                        <h3 class="is-link"> Notes</h3>
+                        <hr>
+                        </div>
                         </div>
                     </section>
                     <hr>
@@ -133,16 +137,21 @@ $(document).ready(function () {
                     </div>
                 </div>
             `)
-            if (data.note) {
-                $(".modal-footer").append(`
-                    <button type="button" class="btn btn-secondary deleteNote" data-id=${data.note._id} data-dismissal="modal">Delete Note</button>
-                `)
-                console.log("this is the note info")
-                console.log(data.note.body)
-                $("#noteTitle").val(data.note.title);
-                $("#noteBody").val(data.note.body)
+            // appending Notes on the bottom of Modal
+             data.note.forEach(function(e){
+                
+                const ul=$("<ul>")
+                const li= $(`<li>${e.title} - ${e.body}</li>`)
+                ul.append(li)
+                console.log(li)
+                $(".content-notes").append(ul)
+                
+             })
+                
+                
+                
             }
-        });
+        );
 
     });
 
@@ -213,3 +222,13 @@ $(document).ready(function () {
 
 
 });
+
+
+ // $(".modal-footer").append(`
+                //     <button type="button" class="btn btn-secondary deleteNote" data-id=${data.note._id} data-dismissal="modal">Delete Note</button>
+                // // `)
+                // console.log("this is the note info") 
+              
+                
+            //    $("#noteTitle").val(data.note.title)
+            //   $("#noteBody").val( data.note.body)

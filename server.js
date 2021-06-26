@@ -23,7 +23,7 @@ app.set("view engine", "handlebars");
 // Connect to the Mongo DB
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/recipeBookdb";
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true ,useCreateIndex: true, useUnifiedTopology: true})
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true ,useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false})
 
 
 //import routes and give the server access to them.

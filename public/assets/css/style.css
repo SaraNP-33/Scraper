@@ -141,7 +141,8 @@ article,
     overflow: hidden
 }
 
-.modal-card-title {
+.modal-card-title
+ {
     color: #0D4C8A;
 }
 .modal-content {
@@ -155,4 +156,13 @@ article,
 
 #modalImg {
     max-width: 50%;
+}
+ul{
+    width:auto;
+    
+}
+li{
+    text-align: left;
+    /* left: 50%;
+    transform:translateX(-50%) */
 }

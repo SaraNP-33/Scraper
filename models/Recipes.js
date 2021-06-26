@@ -28,10 +28,10 @@ var RecipeSchema =new Schema({
         type:Boolean,
         default: false
     },
-    note:{
+    note:[{
         type: Schema.Types.ObjectId,
         ref: "Note"
-    }
+    }]
 });
 
 var Recipe = mongoose.model("Recipe", RecipeSchema);

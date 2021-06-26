@@ -124,7 +124,7 @@ router.get("/scrape",function(req,res){
         db.Note.create(req.body)
         .then(function(Notedb){
             console.log(Notedb)
-            return db.Recipe.findOneAndUpdate({_id:req.params.id},{$set:{note:Notedb._id}},{new: true});
+            return db.Recipe.findOneAndUpdate({_id:req.params.id},{$push:{note:Notedb._id}},{new: true});
         })
         .then(function(recipedb){
             console.log(recipedb)
