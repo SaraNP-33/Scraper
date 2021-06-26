@@ -1,20 +1,132 @@
-body{
-    background-color: whitesmoke;
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;900&display=swap');
+
+:root {
+    padding: 0;
+    margin: 0;
+    border-style: border-box;
 }
 
-.jumboTitle,
-.jumboTitle1
-{
-    color:#ff6600;
-    font-family:"Poppins", "cursive"
+body {
+    background-color: transparent;
 }
 
-
-.delBtn{
-    background-color:#ff6600;
+#jumbotron {
+    background: url(../images/lemons.jpg) 0 0 no-repeat;
+    background-size: cover;
+    box-shadow: 0px 4px 12px #aaaaaa;
+    width: 100vw;
+    height: auto;
 }
 
-.jumbotron{
-    background-color:whitesmoke;
+h1 {
+    font-size: 3rem;
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    color: #3f3f3f;
 }
 
+h1 span {
+    font-weight: 400;
+}
+
+#scraper {
+    font-weight: 400;
+}
+
+#scrape,
+#home {
+    background-color: #0D4C8A;
+    border-radius: 5px;
+    color: white;
+}
+
+#saved {
+    background-color: #88B14B;
+    border-radius: 5px;
+    color: white;
+}
+
+#delete {
+    background-color: #D13176;
+    border-radius: 5px;
+    color: white;
+}
+
+#scrape:hover,
+#saved:hover,
+#delete:hover,
+#home:hover,
+#addNote:hover {
+    background-color: #F6D259;
+    color: #3f3f3f;
+}
+
+#recipes,
+#savedRecipes {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5vh 10vw;
+}
+
+article,
+.parent {
+    max-width: 362.25px;
+    
+}
+
+#viewLink,
+.delSaved .fa-trash{
+    color: grey;
+}
+
+#viewLink:hover {
+    color: #0D4C8A;
+}
+
+.delSaved .fa-trash:hover {
+    color: #CC1036;
+}
+
+.recipeImage {
+    max-width: 20vw;
+    min-width: 200px;
+}
+
+.card-title {
+    color: #0D4C8A;
+}
+
+.modal-card-title {
+    color: #0D4C8A;
+}
+
+.card-title:hover {
+    text-decoration: underline;
+    text-underline-position: under;
+}
+
+#saveBtn {
+    cursor: pointer;
+    color: #0D4C8A;
+}
+
+#saveBtn:hover {
+    color: #CC1036;
+}
+
+#save {
+    margin-left: .4rem;
+    padding-bottom: .6rem;
+}
+
+#description {
+    height: 10vh;
+}
+
+#addNote {
+    border-radius: 5px;
+    background-color: #D13176;
+    color: white;
+    font-size: .8rem;
+    padding: .65vh 1vw .65vh 1vw;
+}

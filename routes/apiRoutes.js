@@ -12,54 +12,52 @@ var db=require("../models");
 
 router.get("/scrape",function(req,res){
     for(let page=0; page<=7;page++){
-    axios.get(`https://www.realsimple.com/food-recipes/browse-all-recipes`).then(function(response){
+    axios.get('https://foodgawker.com/').then(function(response){
         //loading body of html onto cherio after requesting it with axios
+        // console.log(response)
         var $=cheerio.load(response.data);
-            console.log(response.data, "data")
-            //console.log("dragon")
+            // console.log(response.data, "data")
+            // console.log("dragon")
     var array=[];
     //grabbing the individual recipe cards
-    $(".category-page-item").each(function(i,element){
+    $("div.flipwrapper").each(function(i,element){
 
     //empty object to put everything I want from those cards
         var result={}
     
     //adding to the object the specific things to scrape from those cards
     result.image = $(element)
-    .find(".category-page-item-image a")
-    .children(".lazy-image")
-    .attr("data-src");
-   
-   
+    .find("section.picture")
+    .children("a.picture-link")
+    .find("img")
+    .attr("src");
+
     
     result.title=$(element)
-    .find(".category-page-item-content a")
-    .children(".category-page-item-title")
-    .text()
-    .trim();
+    .attr("data-sharetitle")
+
+    // console.log(result.title, "IS THIS THE TITLE")
 
     result.link=$(element)
-    .find(".category-page-item-content a")
+    .find("section.picture")
+    .children("a.picture-link")
     .attr("href");
 
     result.description=$(element)
-    .find(".category-page-item-content")
-    .find(".category-page-item-description")
+    .find("section.description")
     .text().trim()
 
 
-    console.log(result, "am I getting it?")
-    console.log("******************")
+    // console.log(result, "am I getting it?")
+    // console.log("******************")
     array.push(result)
-
     });
-    
 
     //insert into the database
     db.Recipe.insertMany(array)
     .then(function(recipedb){
         // console.log(recipedb)
-       
+       res.redirect("/")
     })
     .catch(function(err){
         console.log(err)
@@ -69,8 +67,8 @@ router.get("/scrape",function(req,res){
     }).catch((err)=>{
         console.log(err, "err from scraping")
     })
- }
-    res.redirect("/");
+    
+};
 });
    
     //route to grab all the recipes we scraped
