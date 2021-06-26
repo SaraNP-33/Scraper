@@ -125,30 +125,29 @@ $(document).ready(function () {
                                 <textarea class="form-control mt-3 pt-2" placeholder="ENTER NOTE HERE" id="noteBody"></textarea>
                             </div>
                         </form>
-                        <div class="content-notes">
-                        <h3 class="is-link"> Notes</h3>
-                        <hr>
-                        </div>
                         </div>
                     </section>
                     <hr>
                     <div class="is-flex is-flex-direction-row-reverse mr-5">
                         <button class="button is-success saveNote mr-5" data-id=${data._id}>Save Note</button>
                     </div>
+                    <div class="content-notes">
+                    <h2 class="has-text-centered noteTitle"> Notes</h2>
+                    <hr>
+                    </div>
                 </div>
             `)
             // appending Notes on the bottom of Modal
              data.note.forEach(function(e){
                 
-                const ul=$("<ul>")
-                const li= $(`<li>${e.title} - ${e.body}</li>`)
+                const ul=$(`<ul>`)
+                const li= $(`<li class="oneNote">${e.title} - ${e.body} <button class="deleteNote" data-id=${e._id}>🗑</button> </li>`)
                 ul.append(li)
                 console.log(li)
                 $(".content-notes").append(ul)
+               
                 
              })
-                
-                
                 
             }
         );
@@ -180,6 +179,7 @@ $(document).ready(function () {
         }).then(function (data) {
             console.log("saved the note")
             console.log(data)
+            
         })
         $("#noteTitle").val("")
         $("#noteBody").val("")
@@ -200,8 +200,7 @@ $(document).ready(function () {
 
         }).then(function () {
             console.log("it's running")
-            $("#noteTitle").val(" ")
-            $("#noteBody").val(" ")
+            $(".oneNote").val(" ") 
 
         }).fail(function (err) {
             console.log(err)

@@ -157,6 +157,10 @@ article,
 #modalImg {
     max-width: 50%;
 }
+.noteTitle{
+    margin-top:3vw;
+    color: #0D4C8A;
+}
 ul{
     width:auto;
     
@@ -165,4 +169,13 @@ li{
     text-align: left;
     /* left: 50%;
     transform:translateX(-50%) */
+}
+.content-notes{
+    margin-bottom:4vh;
+}
+.deleteNote{
+    border: none;
+    outline: none;
+    background: none;
+    margin-left: 1vw;
 }
