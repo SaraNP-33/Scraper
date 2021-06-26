@@ -96,9 +96,7 @@ article,
     color: #0D4C8A;
 }
 
-.modal-card-title {
-    color: #0D4C8A;
-}
+
 
 .card-title:hover {
     text-decoration: underline;
@@ -129,4 +127,32 @@ article,
     color: white;
     font-size: .8rem;
     padding: .65vh 1vw .65vh 1vw;
+}
+#noteTitle,
+#noteBody {
+    text-align: center;
+    width: 25rem;
+    height: 2vw;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #3f3f3f;
+    margin-bottom: 1vh;
+    overflow: hidden
+}
+
+.modal-card-title {
+    color: #0D4C8A;
+}
+.modal-content {
+    overflow: hidden;
+}
+
+#modal-title:hover {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+}
+
+#modalImg {
+    max-width: 50%;
 }

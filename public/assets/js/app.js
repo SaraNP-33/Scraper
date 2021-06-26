@@ -99,73 +99,44 @@ $(document).ready(function () {
         var id = $(this).data("id")
         console.log("this is the article id:" + id)
 
-        $(".notes").empty();
+        $("#notes").empty();
 
         $.ajax({
             url: "/recipe/" + id,
             method: "GET"
         }).then(function (data) {
             // console.log(data, "from data")
-            $("#notes").append(
-        // <header class="modal-card-head">
-        // <p class="modal-card-title">${data.title}</p>
-        // <button class="delete" aria-label="close">
-        // ::before
-        // ::after
-        // </button>
-        // </header>
-        // <section class="modal-card-body">
-        // <div class="content">
-        // </div>
-        // <h5 class="modal-title">${data.title}</h5>
-        // </div>
-        // <div class="modal-body">
-        // <form>
-        // <div class="form-group">
-        // <label for="name" class="col-form-label">Note Title:</label>
-        // <input type="text" class="form-control" id="noteTitle">
-        // </div>
-        // <div class="form-group">
-        // <label for="text" class="col-form-label">Note:</label>
-        // <textarea class="form-control" id="noteBody"></textarea>
-        // </div>
-        // </form>
-        // <div class="modal-footer">
-        // <button type="button" class="btn btn-success saveNote" data-id=${data._id}>Save Note</button>
-        // </div>
-        // </div>
-        // MODAL
-        ` 
-        <div class="modal-card">
-        <section class="modal-card-body">
-        <div class=" is-flex">
-        <button class="delete aria-label="close"></button>
-        </div>
-        <p class="modal-card-title has-text-link mb-5 ">${data.title}</p>
-        <figure class="image is-block">
-                            <img src="${data.image}" class="recipeImage" alt="Recipe Image">
+            $("#notes").append(`
+                <div class="modal-card">
+                    <section class="modal-card-body">
+                        <div class="is-flex is-flex-direction-row-reverse">
+                            <button  id="x" class="delete mr-5 mb-5" aria-label="close"></button>
+                        </div>
+                        <div class="content has-text-centered">
+                        <a  href="${data.link}" target="_blank" class=" is-centered title modal-card-title has-text-link mb-5 mx-auto " id="modal-title">${data.title}</a>
+                        <figure class="image">
+                            <img src="${data.image}" class="recipeImage" alt="Recipe Image" id="modalImg">
                         </figure>
-        <form class="mt-5">
-        <div class="form-group">
-        <label for="name" class="col-form-label">Note Title:</label>
-        <input type="text" class="form-control" id="noteTitle">
-        </div>
-        <div class="form-group">
-        <label for="text" class="col-form-label">Note:</label>
-        <textarea class="form-control" id="noteBody"></textarea>
-        </div>
-        </form>
-        </section>
-        <hr>
-        <div class="is-flex is-justify-content-right">
-            <button class="button is-success saveNote" data-id=${data._id}>Save Note</button>
-        </div>
-        </div>
-   `)
+                        <form class="content mt-5 has-text-centered">
+                            <div class="form-group">
+                                <input type="text" placeholder="TITLE OF NOTE" class="form-control" id="noteTitle">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control mt-3 pt-2" placeholder="ENTER NOTE HERE" id="noteBody"></textarea>
+                            </div>
+                        </form>
+                        </div>
+                    </section>
+                    <hr>
+                    <div class="is-flex is-flex-direction-row-reverse mr-5">
+                        <button class="button is-success saveNote mr-5" data-id=${data._id}>Save Note</button>
+                    </div>
+                </div>
+            `)
             if (data.note) {
                 $(".modal-footer").append(`
-        <button type="button" class="btn btn-secondary deleteNote" data-id=${data.note._id} data-dismissal="modal">Delete Note</button>
-        `)
+                    <button type="button" class="btn btn-secondary deleteNote" data-id=${data.note._id} data-dismissal="modal">Delete Note</button>
+                `)
                 console.log("this is the note info")
                 console.log(data.note.body)
                 $("#noteTitle").val(data.note.title);
@@ -175,8 +146,15 @@ $(document).ready(function () {
 
     });
 
+    //Close modal by clicking out of it
     $(".modal-background").click(() => {
         $(".modal").removeClass("is-active");
+    })
+
+    //Close modal by clicking the x button
+    $(document).on("click","#x",() => {
+        $(".modal").removeClass("is-active");
+        console.log("Did the modal close?") // NOPE
     })
 
     //add a note and save it 
